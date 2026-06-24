@@ -1,0 +1,22 @@
+trigger:
+- master
+- main
+
+pool:
+  vmImage: ubuntu-latest
+
+steps:
+- task: UseDotNet@2
+  displayName: 'Install .NET 8 SDK'
+  inputs:
+    packageType: sdk
+    version: '8.x'
+
+- script: dotnet restore
+  displayName: 'Restore dependencies'
+
+- script: dotnet build --configuration Release --no-restore
+  displayName: 'Build the app'
+
+- script: dotnet test --no-build --configuration Release
+  displayName: 'Run tests'
